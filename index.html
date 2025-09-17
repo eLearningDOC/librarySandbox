@@ -1,0 +1,250 @@
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>City Library – AccessLearn Playground</title>
+<style>
+  /* Author: update --bg-image to your final image path or a data URI when ready */
+  :root{--bg:#fff;--bg-image:url('images/library_design.png');--ink:#1b1c38;--accent:#FFA024;--card:#fff;--soft:#D1EAFE}
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;color:var(--ink);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,sans-serif}
+  /* Set attached image as the page background with a safe color fallback */
+  body{min-height:100vh;display:flex;flex-direction:column;background-color:var(--bg);background-image:var(--bg-image);background-size:cover;background-position:center;background-repeat:no-repeat;background-attachment:fixed}
+  a{color:var(--ink)} img{max-width:100%;height:auto}
+  .container{width:100%;max-width:none;margin:0 auto;padding:.75rem 2vw}
+
+  /* Visible skip (intentionally broken target) */
+  .skip-link{position:absolute;left:1rem;top:-40px;background:#fff;border:2px solid var(--accent);padding:.5rem 1rem;z-index:1000}
+  .skip-link:focus{top:1rem}
+
+  header,footer{background:#fff} header{border-bottom:1px solid #1b1c38} footer{border-top:1px solid #e9e9ec}
+  .brand{display:flex;align-items:center;gap:.75rem} .brand img{width:44px;height:44px} .small{font-size:.92rem;color:#444}
+
+  /* Centered nav */
+  nav ul{display:flex;justify-content:center;gap:.5rem 1rem;list-style:none;margin:.5rem 0 0;padding:0;flex-wrap:wrap}
+  nav a{padding:.55rem .8rem;border-radius:.55rem;text-decoration:none}
+  nav a:focus-visible,button:focus-visible,input:focus-visible,[role="button"]:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+  .hero{display:flex;justify-content: center;align-items: stretch;min-height: unset;grid-template-columns:1fr;gap:1rem;align-items:center;margin-top: 5.5rem;}
+  @media (min-width:900px){.hero{grid-template-columns:1.2fr .8fr}}
+  .hero .lead{background:var(--card);padding:1rem;border-radius:1rem;box-shadow:0 1px 0 rgba(0,0,0,.06)}
+  .hero h1{margin:.25rem 0 .5rem;font-size:clamp(1.6rem,2.2vw,2rem)}
+  .btn{display:inline-block;background:var(--ink);color:#fff;padding:.6rem 1rem;border:none;border-radius:.75rem;cursor:pointer;text-decoration:none}
+  .btn:hover{filter:brightness(1.05)}
+  /* Low-contrast secondary control (single instance) */
+  .btn-secondary{background:#eee;color:#bfbfbf;border:1px solid #e5e5e5}
+
+  /* Visual section title not coded as heading */
+  .section-title{margin:1.6rem 0 1rem;font-size:clamp(1.3rem,1.8vw,1.6rem);font-weight:700;letter-spacing:.2px}
+
+  .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}
+  @media (max-width:1100px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media (max-width:720px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--card);border-radius:1rem;padding:1rem;box-shadow:0 1px 0 rgba(0,0,0,.06);display:flex;flex-direction:column;gap:.5rem}
+  .card h3{margin:.25rem 0;font-size:1.25rem} .card p{margin:.25rem 0 .5rem}
+  .card .card-actions{margin-top:auto;display:flex;gap:.5rem;align-items:center}
+
+  /* Exactly one element with invisible focus indicator */
+  .no-focus-outline:focus{outline:none !important;box-shadow:none !important}
+    section[aria-labelledby="news-title"], 
+    section[aria-labelledby="news-title"] .small, 
+    section[aria-labelledby="news-title"] label {
+  color: #fff;
+}
+  /* Modal */
+  .modal{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center}
+  .modal.open{display:flex}
+  .dialog{background:#fff;width:min(520px,94vw);margin:1rem;border-radius:1rem;padding:1rem;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+  .dialog h2{margin:.25rem 0 .5rem} .dialog .actions{display:flex;justify-content:flex-end;gap:.5rem}
+</style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header>
+    <div class="container">
+      <div class="brand" aria-label="City Library brand">
+        <img src="images/libraryLogo.png" alt="City Library logo">
+        <div><strong>City Library</strong><br><span class="small">Find your favorite books and community events.</span></div>
+      </div>
+      <nav aria-label="Primary">
+        <ul>
+          <li><a href="#events">Events</a></li>
+          <li><a href="#resources">Resources</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="content-main" class="container">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="lead">
+        <h1 id="hero-title">Welcome to your community hub!</h1>
+        <p>Discover programs, learn new skills, and connect with neighbors. We keep things simple, accessible, and friendly.</p>
+        <p>
+          <button id="openModal" class="btn" aria-haspopup="dialog">Learn more</button>
+      </div>
+    </section>
+
+    <!-- Visually styled section title that's not an actual heading element -->
+    <div class="section-title">Discover and Connect</div>
+
+    <section class="grid" aria-label="Feature cards">
+      <article id="events" class="card">
+        <h3>Upcoming Events at Your Library</h3>
+        <!-- Author: replace src with your own image path here -->
+        <img src="images/CommunityReading.png" alt="" role="presentation">
+        <p>Welcome to our monthly Community Reading! Programs, performances, and prizes are waiting for you!</p>
+        <div class="card-actions">
+          <!-- Focus order jumps here due to tabindex -->
+          <button id="viewEvents" class="btn" tabindex="1">Learn more</button>
+        </div>
+      </article>
+
+      <article id="resources" class="card">
+        <h3>Digital Resources for Everyone</h3>
+        <img src="images/audiobok.jpg" alt="" role="presentation">
+        <p>Stream ebooks and audiobooks, search research databases, or try our language apps with your library card.</p>
+        <div class="card-actions">
+          <a href="#resources" id="browseResources" class="btn">Browse resources</a>
+        </div>
+      </article>
+
+      <article id="contact" class="card">
+        <h3>Room Reservations</h3>
+        <img src="images/libraryRoom.jpg" alt="" role="presentation">
+        <p>You may reserve a study room the same day or up to two weeks in advance.</p>
+        <div class="card-actions">
+          <!-- Exactly one element with invisible focus indicator -->
+          <a href="#contact" id="getInTouch" class="btn no-focus-outline">Reserve</a>
+        </div>
+      </article>
+    </section>
+
+    <section aria-labelledby="news-title" style="margin-top:1.6rem">
+      <h2 id="news-title">Community updates</h2>
+      <p class="small">Sign up for monthly highlights and program news.</p>
+      <form action="#" method="post" aria-describedby="news-note">
+        <div>
+          <label for="email">Email address</label><br>
+          <input id="email" type="email" name="email" autocomplete="email" required>
+        </div>
+        <button class="btn" type="submit">Subscribe</button>
+        <div id="news-note" class="small">We’ll send helpful updates. Unsubscribe anytime.</div>
+      </form>
+    </section>
+  </main>
+
+  <!-- Modals -->
+  <div id="modal" class="modal" aria-hidden="true">
+    <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="dialog-title">
+      <h2 id="dialog-title">About this library</h2>
+      <p>Our mission is to connect people with information, stories, and each other. Explore classes, quiet spaces, and staff picks.</p>
+      <div class="actions"><button id="closeModal" class="btn">Close</button></div>
+    </div>
+  </div>
+
+  <div id="contactModal" class="modal" aria-hidden="true">
+    <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="contact-title">
+      <h2 id="contact-title">Contact the library</h2>
+      <p>To reserve a room, call or email us at least 24 hours before your event.</p>
+      <div class="actions"><button id="closeContact" class="btn">Close</button></div>
+    </div>
+  </div>
+
+  <div id="resourcesModal" class="modal" aria-hidden="true">
+    <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="resources-title">
+      <h2 id="resources-title">Browse digital resources</h2>
+      <img src="images/audiobok.jpg" alt="Ebooks on a tablet" style="max-width:100%;margin-bottom:1rem;">
+      <p>Use your library card to access ebooks, audiobooks, research databases, and language learning tools from home.</p>
+      <div class="actions"><button id="closeResources" class="btn">Close</button></div>
+    </div>
+  </div>
+
+  <div id="eventsModal" class="modal" aria-hidden="true">
+    <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="events-title">
+      <h2 id="events-title">Upcoming events</h2>
+       <img src="images/CommunityReading.png" alt="Community Reading Event" style="max-width:100%;margin-bottom:1rem;">
+      <p>Participate in our Community Reading this month!</p>
+      <div class="actions"><button id="closeEvents" class="btn">Close</button></div>
+    </div>
+  </div>
+
+  <footer>
+    <div style="display:flex;align-items:center;gap:1rem;padding:1rem 0;justify-content:center;">
+      <a href="https://facebook.com" target="_blank" rel="noopener" aria-label="Facebook">
+        <svg width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <circle cx="16" cy="16" r="16" fill="#1877F3"/>
+          <path d="M21 16h-3v8h-4v-8h-2v-3h2v-2c0-2 1-3 3-3h3v3h-2c-.5 0-1 .5-1 1v1h3l-1 3z" fill="#fff"/>
+        </svg>
+    </a>
+    <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram">
+      <svg width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <circle cx="16" cy="16" r="16" fill="#E1306C"/>
+        <rect x="10" y="10" width="12" height="12" rx="4" fill="#fff"/>
+        <circle cx="16" cy="16" r="3" fill="#E1306C"/>
+        <circle cx="21" cy="11" r="1" fill="#E1306C"/>
+      </svg>
+    </a>
+    <a href="https://linkedin.com" target="_blank" rel="noopener" aria-label="LinkedIn">
+      <svg width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <circle cx="16" cy="16" r="16" fill="#0077B5"/>
+        <rect x="10" y="14" width="2" height="8" fill="#fff"/>
+        <rect x="10" y="11" width="2" height="2" fill="#fff"/>
+        <rect x="14" y="14" width="2" height="8" fill="#fff"/>
+        <rect x="16" y="18" width="2" height="4" fill="#fff"/>
+        <rect x="18" y="16" width="2" height="6" fill="#fff"/>
+      </svg>
+    </a>
+    </div>
+  </footer>
+
+<script>
+  // Focus helpers & modal infra
+  const focusables=(s)=>s.querySelectorAll('a[href],button:not([disabled]),textarea,input,select,[tabindex]:not([tabindex="-1"])');
+  let activeModal=null,lastFocus=null;
+  function openModal(m,opener){lastFocus=opener||document.activeElement;m.classList.add('open');m.removeAttribute('aria-hidden');const f=focusables(m.querySelector('.dialog'));if(f.length)f[0].focus();activeModal=m}
+  function closeModal(m){m.classList.remove('open');m.setAttribute('aria-hidden','true');if(lastFocus)lastFocus.focus();activeModal=null}
+
+  // Learn more modal
+  const modal=document.getElementById('modal');
+  document.getElementById('openModal').addEventListener('click',()=>openModal(modal,document.getElementById('openModal')));
+  document.getElementById('closeModal').addEventListener('click',()=>closeModal(modal));
+  modal.addEventListener('click',(e)=>{if(e.target===modal)closeModal(modal)});
+
+  // Get in touch modal
+  const contactModal=document.getElementById('contactModal');
+  const getInTouch=document.getElementById('getInTouch');
+  getInTouch.addEventListener('click',(e)=>{e.preventDefault();openModal(contactModal,getInTouch)});
+  document.getElementById('closeContact').addEventListener('click',()=>closeModal(contactModal));
+  contactModal.addEventListener('click',(e)=>{if(e.target===contactModal)closeModal(contactModal)});
+
+  // Browse resources modal
+  const resourcesModal=document.getElementById('resourcesModal');
+  const browseBtn=document.getElementById('browseResources');
+  browseBtn.addEventListener('click',(e)=>{e.preventDefault();openModal(resourcesModal,browseBtn)});
+  document.getElementById('closeResources').addEventListener('click',()=>closeModal(resourcesModal));
+  resourcesModal.addEventListener('click',(e)=>{if(e.target===resourcesModal)closeModal(resourcesModal)});
+
+  // View events modal
+  const eventsModal=document.getElementById('eventsModal');
+  const viewEvents=document.getElementById('viewEvents');
+  viewEvents.addEventListener('click',()=>openModal(eventsModal,viewEvents));
+  document.getElementById('closeEvents').addEventListener('click',()=>closeModal(eventsModal));
+  eventsModal.addEventListener('click',(e)=>{if(e.target===eventsModal)closeModal(eventsModal)});
+
+  // Global trap & Esc
+  document.addEventListener('keydown',(e)=>{
+    if(!activeModal)return; if(e.key==='Escape'){closeModal(activeModal);} 
+    if(e.key==='Tab'){
+      const d=activeModal.querySelector('.dialog'); const f=[...focusables(d)]; if(!f.length)return;
+      const i=f.indexOf(document.activeElement);
+      if(e.shiftKey && (i===0||i===-1)){e.preventDefault();f[f.length-1].focus();}
+      else if(!e.shiftKey && i===f.length-1){e.preventDefault();f[0].focus();}
+    }
+  });
+</script>
+
+
+</body>
+</html>
